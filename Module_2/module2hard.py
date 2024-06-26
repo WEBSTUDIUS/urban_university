@@ -20,4 +20,9 @@ def result(n):
     print(*(sorted(set(*secret_keys_first.values())) + sorted(set(*secret_keys_second.values()))))
 
 
-result(11)
+num = int(input('Enter number from 3 to 20: '))
+
+while 3 > num < 20 or num > 20:
+    num = int(input('Enter number from 3 to 20: '))
+
+result(num)
