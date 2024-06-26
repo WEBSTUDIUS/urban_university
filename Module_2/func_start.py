@@ -9,6 +9,7 @@
 # Выведите на экран(консоль) результат работы функции get_matix.
 
 def get_matrix(n, m, value):
+    if n <= 0 or m <= 0 or value <= 0: return []
     matrix = []
     for i in range(n):
         matrix.append([])
@@ -20,3 +21,4 @@ def get_matrix(n, m, value):
 print(get_matrix(5, 4, 3))
 print(get_matrix(2, 3, 10))
 print(get_matrix(2, 4, 6))
+print(get_matrix(2, 0, 6))
