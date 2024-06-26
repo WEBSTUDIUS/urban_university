@@ -17,6 +17,6 @@ def get_matrix(n, m, value):
     return matrix
 
 
-print(get_matrix(5, 5, 1))
+print(get_matrix(5, 4, 3))
 print(get_matrix(2, 3, 10))
 print(get_matrix(2, 4, 6))
