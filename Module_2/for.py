@@ -11,23 +11,25 @@
 # В процессе проверки на простоту записывайте числа из списка numbers в списки primes и not_primes в зависимости от значения переменной is_prime после проверки (True - в prime, False - в not_prime).
 # Выведите списки primes и not_primes на экран(в консоль).
 
-numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+# numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+numbers = [3, 6, 3, 2, 7, 12, 11, 56, 33, 55, 9, 8, 13, 14, 15]
 
 primes = []
 not_primes = []
 
-for i in range(1, len(numbers)):
+for i in numbers:
+    if i == 1:
+        continue
     is_prime = True
-    for j in range(i):
-        if numbers[j] == 1:
-            continue
-        if numbers[i] % numbers[j] == 0:
-            is_prime = False
+    for j in numbers:
+        if j > i:
             break
+        if i % j == 0 and j > 1 and j != i:
+            is_prime = False
     if not is_prime:
-        not_primes.append(numbers[i])
+        not_primes.append(i)
     else:
-        primes.append(numbers[i])
+        primes.append(i)
 
 print(primes, not_primes)
 
