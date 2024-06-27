@@ -28,7 +28,7 @@ def string_info(string):
 
 def is_contains(string, list_):
     count_calls()
-    list_ = ' '.join(str(e.lower()) for e in list_)
+    list_ = str(list_).lower()
     return list_.__contains__(string.lower())
 
 
