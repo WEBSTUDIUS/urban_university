@@ -10,7 +10,7 @@
 # Здесь <sender> и <recipient> - значения хранящиеся в этих переменных.
 # За один вызов функции выводится только одно и перечисленных уведомлений! Проверки перечислены по мере выполнения.
 
-def send_email(message, recipient, sender="university.help@gmail.com"):
+def send_email(message, recipient, *, sender="university.help@gmail.com"):
     if not message:
         print('Nothing to send. Add message')
         return False
@@ -40,4 +40,4 @@ def check_email(email):
     return True
 
 
-send_email('message', 'asd@asd.com', 'asd@asd.ru')
+send_email('message', 'asd@asd.com', sender='asd@asd.ru')
