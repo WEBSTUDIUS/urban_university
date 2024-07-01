@@ -14,9 +14,6 @@ def send_email(message, recipient, *, sender="university.help@gmail.com"):
     if not message:
         print('Nothing to send. Add message')
         return False
-    if not recipient:
-        print('Add recipient email address')
-        return False
     if not check_email(recipient) or not check_email(sender):
         print(f'Невозможно отправить письмо с адреса <{sender}> на адрес <{recipient}>')
         return False
@@ -40,4 +37,4 @@ def check_email(email):
     return True
 
 
-send_email('message', 'asd@asd.com', sender='asd@asd.ru')
+send_email('message', 'asd@asd.com', sender='asd@as.com')
