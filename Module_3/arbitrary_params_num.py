@@ -14,10 +14,11 @@
 
 def single_root_words(root_word, *other_words):
     same_words = []
+    root_word = root_word.lower()
     for word in other_words:
-        if root_word in word:
+        if root_word in word.lower():
             same_words.append(word)
-        elif word in root_word:
+        elif word.lower() in root_word:
             same_words.append(word)
         else:
             continue
@@ -25,5 +26,8 @@ def single_root_words(root_word, *other_words):
 
 
 print(single_root_words('ever', 'ev', 'everytime', 'bold', 'whatever'))
-
+result1 = single_root_words('rich', 'richiest', 'orichalcum', 'cheers', 'richies')
+result2 = single_root_words('Disablement', 'Able', 'Mable', 'Disable', 'Bagel')
+print(result1)
+print(result2)
 
