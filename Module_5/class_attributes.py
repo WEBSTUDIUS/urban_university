@@ -19,7 +19,13 @@ class House:
             print(key)
 
 
-h1 = House('ЖК Горский', 18)
-h2 = House('Домик в деревне', 2)
-h1.go_to(5)
-h2.go_to(10)
+# this is for magic_tasks.py
+if __name__ == '__main__':
+    def print_house():
+        h1 = House('ЖК Горский', 18)
+        h2 = House('Домик в деревне', 2)
+        h1.go_to(5)
+        h2.go_to(10)
+
+
+    print_house()
