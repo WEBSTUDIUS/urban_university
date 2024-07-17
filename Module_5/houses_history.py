@@ -27,3 +27,6 @@ del h2
 del h3
 
 print(House4.houses_history)
+
+
+
