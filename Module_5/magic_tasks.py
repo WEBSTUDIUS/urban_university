@@ -9,13 +9,18 @@ class House2(House):
         return str(f"Название: {self.name}, кол-во этажей: {self.floor_numbers}")
 
 
-h1 = House2('ЖК Эльбрус', 10)
-h2 = House2('ЖК Акация', 20)
+if __name__ == '__main__':
+    def print_house():
+        h1 = House2('ЖК Эльбрус', 10)
+        h2 = House2('ЖК Акация', 20)
 
-# __str__
-print(h1)
-print(h2)
+        # __str__
+        print(h1)
+        print(h2)
 
-# __len__
-print(len(h1))
-print(len(h2))
+        # __len__
+        print(len(h1))
+        print(len(h2))
+
+
+    print_house()
