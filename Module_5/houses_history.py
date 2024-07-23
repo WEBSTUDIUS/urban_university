@@ -1,5 +1,6 @@
 from operators_reload import House3
 
+
 class House4(House3):
     houses_history = []
 
@@ -27,6 +28,3 @@ del h2
 del h3
 
 print(House4.houses_history)
-
-
-
