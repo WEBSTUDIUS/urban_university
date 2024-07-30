@@ -26,7 +26,7 @@ class Pegasus(Horse, Eagle):
 
     def __init__(self):
         super().__init__() # Так выводит sound из Horse (MRO)
-        # А так - из Eagle, но это напрямую вызов init каждого класса в отдельности. Это похоже на пайтон 2
+        # А так - из Eagle, но это напрямую вызов init каждого класса в отдельности. Но тогда зачем нам super() ? =)
         # Horse.__init__(self)
         # Eagle.__init__(self)
 
