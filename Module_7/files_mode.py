@@ -16,12 +16,10 @@ class Shop:
         self.__file_name = 'products.txt'
 
     def get_products(self):
-        products = ''
         if not os.path.isfile(self.__file_name):
             return 'NO FILE'
         file = open(self.__file_name, 'r+')
-        for line in file:
-            products += line
+        products = file.read()
         file.close()
         return products
 
