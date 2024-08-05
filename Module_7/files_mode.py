@@ -18,7 +18,7 @@ class Shop:
     def get_products(self):
         if not os.path.isfile(self.__file_name):
             return 'NO FILE'
-        file = open(self.__file_name, 'r+')
+        file = open(self.__file_name, 'r+', encoding='utf-8')
         products = file.read()
         file.close()
         return products
