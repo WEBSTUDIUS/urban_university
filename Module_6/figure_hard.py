@@ -7,13 +7,16 @@ class Figure:
         self.filled = filled
 
     def get_color(self):
-        return ['colors']
+        return self.__color
 
     def __is_valid_color(self, r, g, b):
-        pass
+        if [r, g, b] == self.__color:
+            return False
+        return True
 
     def set_color(self, r, g, b):
-        pass
+        if self.__is_valid_color(r, g, b):
+            self.__color = [r, g, b]
 
     def __is_valid_sides(self, *args):
         pass
@@ -55,7 +58,7 @@ class Cube:
 
     def __init__(self):
         super().__init__()
-        self.__sides = self.sides_count # ???
+        self.__sides = self.sides_count  # ???
 
     def get_volume(self):
         pass
