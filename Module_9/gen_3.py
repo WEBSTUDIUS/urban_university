@@ -16,7 +16,7 @@ first_result = (
 second_result = (
     len(first[i]) == len(second[i])
     for i in range(len(first))
-    if len(first) <= len(second)
+    if i < len(second)
 )
 
 print(list(first_result))
