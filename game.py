@@ -51,7 +51,7 @@ class Button:
 
     def draw(self):
         # Draw button
-        arcade.draw_lbwh_rectangle_filled(self.center_x - 100, self.center_y - 25, self.width, self.height,
+        arcade.draw_xywh_rectangle_filled(self.center_x - 100, self.center_y - 25, self.width, self.height,
                                           arcade.color.ASH_GREY)
         # Draw text
         arcade.draw_text(self.text, self.center_x, self.center_y, arcade.color.BLACK, 18, anchor_x="center",
