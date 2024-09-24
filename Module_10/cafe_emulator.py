@@ -1,55 +1,83 @@
-import random
 import time
 from queue import Queue
-from threading import Thread
+from threading import Thread, Lock
 from random import randint
-
-from Module_1.strings import example
 
 
 class Table:
     def __init__(self, number, guest=None):
         self.number = number
         self.guest = guest
+        self.lock = Lock()  # Блокировка для каждого стола
 
 
 class Guest(Thread):
-    def __init__(self, name):
+    def __init__(self, queue, name, cafe):
         super().__init__()
         self.name = name
-        self.delay = 0
+        self.queue = queue
+        self.cafe = cafe
+        self.delay = randint(1, 10)  # Случайная задержка перед прибытием
 
     def run(self):
-        self.delay = randint(3, 10)
+        # Гость засыпает на случайное время перед прибытием
+        time.sleep(self.delay)
+        print(f'{self.name} is arriving at the cafe and waits in line.\n')
+        self.queue.put(self.name)  # Гость встаёт в очередь после задержки
+        self.cafe.guest_arrived()  # Уведомляем кафе, что гость прибыл
 
 
 class Cafe:
-    def __init__(self, *tables):
+    def __init__(self, queue, *tables):
         self.tables = tables
-        self.queue = Queue()
+        self.queue = queue
+        self.total_guests = 0
+        self.guests_arrived = 0  # Счетчик прибывших гостей
 
     def guest_arrival(self, *guests):
-        for i, guest in enumerate(guests):
-            if len(self.tables) > i and self.tables[i].guest is None:
-                self.tables[i].guest = guests[i].name
-                guests[i].start()
-                print('Table number ' + str(self.tables[i].number) + ' occupied by ' + guests[i].name)
-            else:
-                self.queue.put(guests[i].name)
-                print(f'The guest ' + guests[i].name + ' is in queue')
+        self.total_guests = len(guests)  # Общее количество гостей
+        # Стартуем потоки гостей
+        for guest in guests:
+            guest.start()
 
+    def guest_arrived(self):
+         # Увеличивает счетчик прибывших гостей
+        self.guests_arrived += 1
 
     def discuss_guests(self):
-        if not self.queue.empty():
-            guest_name = self.queue.get()
-            print(f'The guest {guest_name} is being served')
-            for table in self.tables:
-                if table.guest == guest_name:
-                    table.guest = None
-                    print('Table number ' + str(table.number) + ' vacated by ' + guest_name)
+        while True:
+            # Если все гости прибыли и все обслужены, закрываем кафе
+            if self.guests_arrived == self.total_guests and self.queue.empty():
+                if all(table.guest is None for table in self.tables):
+                    print("All guests are served. Cafe is closing.")
                     break
 
+            if not self.queue.empty():
+                guest_name = self.queue.get()
+                for table in self.tables:
+                    if table.lock.acquire(blocking=False):  # Попытка захватить блокировку стола
+                        try:
+                            if table.guest is None:  # Если стол свободен
+                                table.guest = guest_name
+                                print(f'Table number {table.number} occupied by {guest_name}')
+                                self.serve_guest(table, guest_name)
+                                break
+                        finally:
+                            table.lock.release()  # Освобождаем блокировку стола
+            time.sleep(1)  # Для имитации времени обработки
 
+    def serve_guest(self, table, guest_name):
+        # Обслуживаем гостя в отдельном потоке, чтобы освобождать стол через некоторое время
+        def serve():
+            print(f'Serving {guest_name} at table {table.number}')
+            time.sleep(randint(2, 5))  # Имитация времени обслуживания
+            print(f'Table number {table.number} vacated by {guest_name}')
+            table.guest = None  # Освобождаем стол после обслуживания
+
+        Thread(target=serve).start()
+
+
+queue1 = Queue()
 # Создание столов
 tables = [Table(number) for number in range(1, 6)]
 # Имена гостей
@@ -59,41 +87,19 @@ guests_names = [
     'Viktoria', 'Nikita', 'Galina', 'Pavel', 'Ilya', 'Alexandra'
 ]
 # Создание гостей
-guests = [Guest(name) for name in guests_names]
+guests = [Guest(queue1, name, cafe=None) for name in guests_names]  # Инициализация гостей без кафе
 # Заполнение кафе столами
-cafe = Cafe(*tables)
-print(cafe.queue.get)
-# Приём гостей
+cafe = Cafe(queue1, *tables)
+
+# Указываем каждому гостю кафе
+for guest in guests:
+    guest.cafe = cafe
+
+# запуск потоков гостей
 cafe.guest_arrival(*guests)
-# Обслуживание гостей
+# Обслуживание гостей в основном потоке
 cafe.discuss_guests()
 
-
-# example about cooking =)
-
-class Bulka (Thread) :
-    def __init__(self, queue) :
-        self. queue = queue
-        super().__init__()
-    def run (self):
-        while True:
-            time.sleep (3)
-            if random.random() > 0.5:
-                self.queue.put ('подгорелая булка')
-            else:
-                self.queue.put ( 'нормальная булка')
-
-class Kotleta (Thread) :
-    def __init__(self, queue, count):
-        self.queue = queue
-        self.count = count
-        super().__init__()
-
-    def run (self):
-        while self.count:
-            print(self.queue.qsize())
-            bulka = self.queue.get
-            if bulka == 'нормальная булка' :
-                time. sleep (0.1)
-                self.count -= 1
-            print( 'булок к приготовлению осталось ', self.count)
+# Ждём завершения всех потоков гостей
+for guest in guests:
+    guest.join()
