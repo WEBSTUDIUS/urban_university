@@ -1,5 +1,3 @@
-from attr.validators import is_callable
-
 from Module_6 import animals
 import inspect
 import sys
