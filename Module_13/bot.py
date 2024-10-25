@@ -1,8 +1,9 @@
 from aiogram import Bot, Dispatcher, types
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.context import FSMContext
 import asyncio
 
-apiToken = '7505009653:AAHVLZL2tm60KPjdjhfh6jB8dZJlSd6qjYhCLJsgI'
+apiToken = '7505009653:AAHVLZL2tm60KP6jB8dZJlSd6qjYhCLJsgI'
 
 # Создание экземпляра бота и диспетчера
 bot = Bot(token=apiToken)
